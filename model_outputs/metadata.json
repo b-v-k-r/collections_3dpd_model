@@ -115,14 +115,14 @@
     "load_join": "left"
   },
   "input_tables": [
-    "analytics.data_science.early_dpd2_combined_features_part1",
-    "analytics.data_science.early_dpd2_combined_features_part2",
-    "analytics.data_science.early_dpd2_combined_features_part3",
-    "analytics.data_science.early_dpd2_combined_features_part4",
-    "analytics.data_science.early_dpd2_combined_features_part5",
-    "analytics.data_science.early_dpd2_combined_features_part6",
-    "analytics.data_science.early_dpd2_combined_features_part7",
-    "analytics.data_science.early_dpd2_combined_features_part8",
-    "analytics.data_science.early_dpd2_combined_features_part9"
+    "analytics.data_science.early_dpd3_combined_features_part1",
+    "analytics.data_science.early_dpd3_combined_features_part2",
+    "analytics.data_science.early_dpd3_combined_features_part3",
+    "analytics.data_science.early_dpd3_combined_features_part4",
+    "analytics.data_science.early_dpd3_combined_features_part5",
+    "analytics.data_science.early_dpd3_combined_features_part6",
+    "analytics.data_science.early_dpd3_combined_features_part7",
+    "analytics.data_science.early_dpd3_combined_features_part8",
+    "analytics.data_science.early_dpd3_combined_features_part9"
   ]
 }

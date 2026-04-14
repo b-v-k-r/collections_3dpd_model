@@ -40,7 +40,7 @@ from config import CHECKPOINT_DIR, CHECKPOINT_ENABLED, CHUNK_SIZE
 from db_service import execute_query, fetch_data
 
 BASE_SQL_PATH = Path(__file__).with_name("base_with_cutoff_date.sql")
-OUTPUT_TABLE = "analytics.data_science.early_dpd2_mandate_features"
+OUTPUT_TABLE = "analytics.data_science.early_dpd3_mandate_features"
 LOAN_KEY_COLS = ["LOAN_ID", "CUTOFF_DATE"]
 REF_KEY_COLS = [*LOAN_KEY_COLS, "REFERENCE_ID"]
 

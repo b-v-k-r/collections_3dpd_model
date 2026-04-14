@@ -54,13 +54,13 @@ warnings.filterwarnings("ignore", category=UserWarning)
 # ---------------------------------------------------------------------------
 
 PREDICTION_DIR = Path(__file__).resolve().parent
-MODEL_2DPD_DIR = PREDICTION_DIR.parent
-FEATURES_DIR = MODEL_2DPD_DIR / "features"
+MODEL_3DPD_DIR = PREDICTION_DIR.parent
+FEATURES_DIR = MODEL_3DPD_DIR / "features"
 FTS_DIR = FEATURES_DIR / "create_new_folder_fts"
 SMS_DIR = FEATURES_DIR / "pipeline_and_sms_features"
-MODEL_OUTPUTS_DIR = MODEL_2DPD_DIR / "model_outputs"
+MODEL_OUTPUTS_DIR = MODEL_3DPD_DIR / "model_outputs"
 
-_PROJECT_ROOT = MODEL_2DPD_DIR
+_PROJECT_ROOT = MODEL_3DPD_DIR
 for _p in [str(_PROJECT_ROOT)]:
     if _p not in sys.path:
         sys.path.insert(0, _p)
@@ -71,29 +71,29 @@ from db_service import execute_query, fetch_data, upload_to_snowflake  # noqa: E
 # Default table names
 # ---------------------------------------------------------------------------
 
-DEFAULT_PRED_BASE_TABLE = "analytics.data_science.early_dpd2_pred_base"
+DEFAULT_PRED_BASE_TABLE = "analytics.data_science.early_dpd3_pred_base"
 # Single-day working table: always CREATE OR REPLACE with just yesterday's rows.
 # Feature pipelines read from this so they never see more than one day at a time.
-DEFAULT_PRED_DAILY_TABLE = "analytics.data_science.early_dpd2_pred_base_daily"
-PRED_COMBINED_PREFIX = "analytics.data_science.early_dpd2_pred_combined_features"
+DEFAULT_PRED_DAILY_TABLE = "analytics.data_science.early_dpd3_pred_base_daily"
+PRED_COMBINED_PREFIX = "analytics.data_science.early_dpd3_pred_combined_features"
 # Daily features history: ID cols + model-selected features, appended every run.
-DEFAULT_PRED_FEATURES_TABLE = "analytics.data_science.early_dpd2_pred_daily_features"
+DEFAULT_PRED_FEATURES_TABLE = "analytics.data_science.early_dpd3_pred_daily_features"
 
 # Feature tables written by the SQL pipelines.
 # The prediction entrypoint can suffix these at runtime via --parser so shared
 # base/training tables remain untouched.
 FEATURE_TABLES = {
-    "collect_dbt": "analytics.data_science.data_early_dpd2_sms_features_collect_dpd",
-    "sms_final": "analytics.data_science.data_early_dpd2_sms_final_features",
-    "inapp": "analytics.data_science.data_early_dpd2_final_app_features",
-    "activity": "analytics.data_science.all_activity_features_for_early_dpd2",
-    "ledger": "analytics.data_science.all_ledger_features_for_early_dpd2",
-    "bureau": "analytics.data_science.all_bureau_features_for_early_dpd2",
-    "transactional": "analytics.data_science.transactional_features_for_early_dpd2",
-    "renewal": "analytics.data_science.renewal_features_for_early_dpd2",
-    "aa": "analytics.data_science.aa_features_for_early_dpd2",
-    "ai_calling": "analytics.data_science.ai_calling_features_for_early_dpd2",
-    "legal_automation": "analytics.data_science.legal_automation_features_for_early_dpd2",
+    "collect_dbt": "analytics.data_science.data_early_dpd3_sms_features_collect_dpd",
+    "sms_final": "analytics.data_science.data_early_dpd3_sms_final_features",
+    "inapp": "analytics.data_science.data_early_dpd3_final_app_features",
+    "activity": "analytics.data_science.all_activity_features_for_early_dpd3",
+    "ledger": "analytics.data_science.all_ledger_features_for_early_dpd3",
+    "bureau": "analytics.data_science.all_bureau_features_for_early_dpd3",
+    "transactional": "analytics.data_science.transactional_features_for_early_dpd3",
+    "renewal": "analytics.data_science.renewal_features_for_early_dpd3",
+    "aa": "analytics.data_science.aa_features_for_early_dpd3",
+    "ai_calling": "analytics.data_science.ai_calling_features_for_early_dpd3",
+    "legal_automation": "analytics.data_science.legal_automation_features_for_early_dpd3",
 }
 
 MERGE_KEYS = ["USER_ID", "CUTOFF_DATE", "LOAN_ID"]

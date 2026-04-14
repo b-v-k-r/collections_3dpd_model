@@ -16,7 +16,7 @@ model_trainer.py
 Optuna-tuned XGBoost binary classifier for early DPD risk detection.
 
 Target   : TARGET_RISK_BUCKET_2D  (0 = safe, 1 = risky, -1 = no future data → dropped)
-Data src : analytics.data_science.early_dpd2_combined_features_part{1..9}
+Data src : analytics.data_science.early_dpd3_combined_features_part{1..9}
            (built by data_creator.py — base + SMS + in-app + activity
             + ledger + bureau + transactional + renewal + aa + ai_calling
             + legal_automation)
@@ -155,20 +155,20 @@ if _project_root not in sys.path:
 # ---------------------------------------------------------------------------
 
 COMBINED_FEATURES_TABLES = [
-    "analytics.data_science.early_dpd2_combined_features_part1",
-    "analytics.data_science.early_dpd2_combined_features_part2",
-    "analytics.data_science.early_dpd2_combined_features_part3",
-    "analytics.data_science.early_dpd2_combined_features_part4",
+    "analytics.data_science.early_dpd3_combined_features_part1",
+    "analytics.data_science.early_dpd3_combined_features_part2",
+    "analytics.data_science.early_dpd3_combined_features_part3",
+    "analytics.data_science.early_dpd3_combined_features_part4",
     # Transactional features: SMS / bank-account / CC (windowed by 1-7d, 8-15d, 16-30d)
-    "analytics.data_science.early_dpd2_combined_features_part5",
+    "analytics.data_science.early_dpd3_combined_features_part5",
     # Renewal DPD features: current-loan performance (30-day lookback, 4 windows)
-    "analytics.data_science.early_dpd2_combined_features_part6",
+    "analytics.data_science.early_dpd3_combined_features_part6",
     # Account-Aggregator transaction features (30-day lookback, 3 windows)
-    "analytics.data_science.early_dpd2_combined_features_part7",
+    "analytics.data_science.early_dpd3_combined_features_part7",
     # Historical AI-calling features (30-day lookback, 3 windows)
-    "analytics.data_science.early_dpd2_combined_features_part8",
+    "analytics.data_science.early_dpd3_combined_features_part8",
     # Historical legal-automation features (30-day lookback, 3 windows)
-    "analytics.data_science.early_dpd2_combined_features_part9",
+    "analytics.data_science.early_dpd3_combined_features_part9",
 ]
 MERGE_KEYS = ["USER_ID", "CUTOFF_DATE", "LOAN_ID"]
 TARGET_COL = "TARGET_RISK_BUCKET_2D"  # uppercased — matches Snowflake response

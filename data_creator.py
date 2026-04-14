@@ -11,21 +11,21 @@ if _project_root not in sys.path:
 from db_service import execute_query, fetch_data
 
 tables = {
-    "collect_dbt": "analytics.data_science.data_early_dpd2_sms_features_collect_dpd",
-    "sms_final": "analytics.data_science.data_early_dpd2_sms_final_features",
-    "inapp": "analytics.data_science.data_early_dpd2_final_app_features",
-    "activity": "analytics.data_science.all_activity_features_for_early_dpd2",
-    "ledger": "analytics.data_science.all_ledger_features_for_early_dpd2",
-    "bureau": "analytics.data_science.all_bureau_features_for_early_dpd2",
-    "transactional": "analytics.data_science.transactional_features_for_early_dpd2",
-    "renewal": "analytics.data_science.renewal_features_for_early_dpd2",
-    "aa": "analytics.data_science.aa_features_for_early_dpd2",
-    "ai_calling": "analytics.data_science.ai_calling_features_for_early_dpd2",
-    "legal_automation": "analytics.data_science.legal_automation_features_for_early_dpd2",
+    "collect_dbt": "analytics.data_science.data_early_dpd3_sms_features_collect_dpd",
+    "sms_final": "analytics.data_science.data_early_dpd3_sms_final_features",
+    "inapp": "analytics.data_science.data_early_dpd3_final_app_features",
+    "activity": "analytics.data_science.all_activity_features_for_early_dpd3",
+    "ledger": "analytics.data_science.all_ledger_features_for_early_dpd3",
+    "bureau": "analytics.data_science.all_bureau_features_for_early_dpd3",
+    "transactional": "analytics.data_science.transactional_features_for_early_dpd3",
+    "renewal": "analytics.data_science.renewal_features_for_early_dpd3",
+    "aa": "analytics.data_science.aa_features_for_early_dpd3",
+    "ai_calling": "analytics.data_science.ai_calling_features_for_early_dpd3",
+    "legal_automation": "analytics.data_science.legal_automation_features_for_early_dpd3",
 }
 base_table = "analytics.data_science.early_dpd_base_3dpd"
 
-TARGET_TABLE = "analytics.data_science.early_dpd2_combined_features"
+TARGET_TABLE = "analytics.data_science.early_dpd3_combined_features"
 
 
 def get_columns(table_name):
