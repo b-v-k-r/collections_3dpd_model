@@ -1,6 +1,6 @@
 set base_tbl = 'analytics.data_science.field_disposition_base';
 
-create or replace table analytics.data_science.all_bureau_features_for_early_dpd2 as
+create or replace table analytics.data_science.all_bureau_features_for_early_dpd3 as
 with bureau_inhouse as (
 with
 BRE_RUNS as (

@@ -3,7 +3,7 @@ set base_tbl = 'analytics.data_science.field_disposition_base';
 -- =====================================================
 -- Step 1: Day-Level SMS Features for Collect DPD
 -- =====================================================
-CREATE OR REPLACE TRANSIENT TABLE ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_DAY_LEVEL_COLLECT_DPD AS (
+CREATE OR REPLACE TRANSIENT TABLE ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_DAY_LEVEL_COLLECT_DPD AS (
     WITH lead_base AS (
         SELECT DISTINCT
             USER_ID,
@@ -146,7 +146,7 @@ CREATE OR REPLACE TRANSIENT TABLE ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_DAY
 -- SELECT COUNT(*) AS CN ,
 --     COUNT(*) - COUNT(MAX_LOAN_AMOUNT_DISBURSED_LOANS)  AS MAXLOAN,
 --     COUNT(*) - COUNT(MIN_LOAN_AMOUNT_DISBURSED_LOANS)  AS MINLOAN
--- FROM ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_DAY_LEVEL_COLLECT_DPD;
+-- FROM ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_DAY_LEVEL_COLLECT_DPD;
 
 
 
@@ -156,19 +156,19 @@ CREATE OR REPLACE TRANSIENT TABLE ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_DAY
 -- limit 100
 -- ;
 
--- select count(*) from ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_DAY_LEVEL_COLLECT_DPD;
+-- select count(*) from ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_DAY_LEVEL_COLLECT_DPD;
 
 -- SELECT COUNT(*) AS CN ,
 --     COUNT(*) - COUNT(MAX_LOAN_AMOUNT_DISBURSED_LOANS)  AS MAXLOAN,
 --     COUNT(*) - COUNT(MIN_LOAN_AMOUNT_DISBURSED_LOANS)  AS MINLOAN
 
--- FROM ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_DAY_LEVEL_COLLECT_DPD;
+-- FROM ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_DAY_LEVEL_COLLECT_DPD;
 
 
 -- =====================================================
 -- Step 2: Lead/User-Level SMS Features with 10 Time Windows
 -- =====================================================
-CREATE OR REPLACE TRANSIENT TABLE ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_FEATURES_COLLECT_DPD AS (
+CREATE OR REPLACE TRANSIENT TABLE ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_FEATURES_COLLECT_DPD AS (
 SELECT
     *,
     -- Ratio features: distinct_banks_loan_disbursed ratios
@@ -727,27 +727,27 @@ FROM (
             MIN(CASE WHEN DATEDIFF('day', dt, CUTOFF_DATE) BETWEEN 15 AND 21 THEN min_emi_amount_paid END) AS min_loan_repayment_amount_3week,
             MIN(CASE WHEN DATEDIFF('day', dt, CUTOFF_DATE) BETWEEN 22 AND 30 THEN min_emi_amount_paid END) AS min_loan_repayment_amount_4week
 
-        FROM ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_DAY_LEVEL_COLLECT_DPD
+        FROM ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_DAY_LEVEL_COLLECT_DPD
         GROUP BY  USER_ID, CUTOFF_DATE
     )
 )
 );
 
--- select * from ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_FEATURES_COLLECT_DPD limit 10;
+-- select * from ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_FEATURES_COLLECT_DPD limit 10;
 
-describe table ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_FEATURES_COLLECT_DPD;
+describe table ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_FEATURES_COLLECT_DPD;
 
--- select count(*) from analytics.data_science.data_early_dpd2_sms_features_collect_dpd;     --- 1995532
+-- select count(*) from analytics.data_science.data_early_dpd3_sms_features_collect_dpd;     --- 1995532
 
 -- SELECT
 --     COUNT(*) AS total_rows,
 --     SUM(CASE WHEN MIN_LOAN_AMOUNT_DISBURSED_12TO14D IS NULL THEN 1 ELSE 0 END) AS null_
 --     SUM(CASE WHEN MIN_LOAN_AMOUNT_APPROVED_2WEEK IS NULL THEN 1 ELSE 0 END) AS null_user_id,
 --     SUM(CASE WHEN MAX_LOAN_AMOUNT_APPROVED_5TO6D IS NULL THEN 1 ELSE 0 END) AS null_CUTOFF_DATE
--- FROM analytics.data_science.data_early_dpd2_sms_features_collect_dpd;
+-- FROM analytics.data_science.data_early_dpd3_sms_features_collect_dpd;
 
 
-select count(*) , count (distinct user_id), count(distinct user_id, cutoff_date) from ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_FEATURES_COLLECT_DPD;
+select count(*) , count (distinct user_id), count(distinct user_id, cutoff_date) from ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_FEATURES_COLLECT_DPD;
 
 
--- select * from ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_SMS_FEATURES_COLLECT_DPD;
+-- select * from ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_SMS_FEATURES_COLLECT_DPD;

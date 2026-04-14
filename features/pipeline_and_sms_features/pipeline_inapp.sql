@@ -1,4 +1,4 @@
--- select * from ANALYTICS.DATA_SCIENCE.DATA_early_dpd2_BASE_FINAL limit 5;
+-- select * from ANALYTICS.DATA_SCIENCE.DATA_early_dpd3_BASE_FINAL limit 5;
 
 -- 1) Define the base table once
 set base_tbl = 'analytics.data_science.field_disposition_base';
@@ -9,7 +9,7 @@ set base_tbl = 'analytics.data_science.field_disposition_base';
 -----       --  - - 1.  DEBIT CREDIT RATIO FEATURES  =========================
 --==========
 
-create or replace transient table analytics.data_science.data_early_dpd2_features_debit_credit_ratio as
+create or replace transient table analytics.data_science.data_early_dpd3_features_debit_credit_ratio as
 with base as (
   select
     a.user_id,
@@ -131,13 +131,13 @@ select
   db_txu_value_last_4_week / nullif(cr_txu_value_last_4_week, 0)::float as db_cr_ratio_last_4_week
 from base;
 
--- select * from analytics.data_science.data_early_dpd2_features_debit_credit_ratio;
+-- select * from analytics.data_science.data_early_dpd3_features_debit_credit_ratio;
 
 ---===========
 ---------  2) ACTIVE USER FEATUERS ---  -   --  -   -   -   -   -
 ---===========
 
-create or replace transient table analytics.data_science.data_early_dpd2_features_active_users as (
+create or replace transient table analytics.data_science.data_early_dpd3_features_active_users as (
 Select  a.USER_ID, a.cutoff_date
     -- App Open Counts by time windows
     ,count(case when datediff('day',event_dt_ist,a.CUTOFF_DATE) between 1 and 2 then b.event_time end) as app_open_cnt_last_1_2_day
@@ -181,7 +181,7 @@ group by 1,2
 
 
 ------ 3) OTHER FEATUERS -- -   --  --  --      -   -       -
-create or replace transient table analytics.data_science.data_early_dpd2_features_other_features as (
+create or replace transient table analytics.data_science.data_early_dpd3_features_other_features as (
 Select  a.USER_ID, a.CUTOFF_DATE
     -- Explored Other Features by time windows
     ,max(case when datediff('day',event_dt_ist,a.CUTOFF_DATE) between 1 and 2
@@ -287,7 +287,7 @@ group by 1,2
 
 
 ----  4) CUSTOMER ADDITON       -   --  -   -   -   --  -
-create or replace transient table analytics.data_science.data_early_dpd2_features_customer_addition as (
+create or replace transient table analytics.data_science.data_early_dpd3_features_customer_addition as (
 with cx as (
     Select created_by_user user_id, phone added_cx_ph, min(create_date) first_addition_dt
     from ANALYTICS.KB_CURATED.CUSTOMERS_SNAP c
@@ -317,7 +317,7 @@ group by 1,2
 
 
 ------  5) LOAN COMMUNICAITON FEATUERS ____
-create or replace transient table analytics.data_science.data_early_dpd2_features_loan_communications as (
+create or replace transient table analytics.data_science.data_early_dpd3_features_loan_communications as (
 with upload_date as (
     Select user_id, upload_date::date upload_dt
     from (
@@ -464,7 +464,7 @@ Select * from lc
 
 ----- 6) LOAN EXPLORED CHANNEL FEATURE ==================================
 
-create or replace transient table analytics.data_science.data_early_dpd2_features_loan_explored_channel as (
+create or replace transient table analytics.data_science.data_early_dpd3_features_loan_explored_channel as (
 with upload_date as (
     Select user_id, upload_date::date upload_dt
     from (
@@ -640,7 +640,7 @@ Select * from le
 
 --------  7) PAYMENT COLLECION REMINDER ========
 
-create or replace transient table analytics.data_science.data_early_dpd2_features_payment_collection_reminder as (
+create or replace transient table analytics.data_science.data_early_dpd3_features_payment_collection_reminder as (
 Select  a.USER_ID, a.CUTOFF_DATE
     -- Collection Reminders Sent Count by time windows
     ,count(distinct case when b.event_time between dateadd('day',-2, a.CUTOFF_DATE)
@@ -726,7 +726,7 @@ group by 1,2
 
 
 ---- COMPILED DATA TABLE --- JOINING PREVIOUS 7 FEATURES GROUPS INTO 1 TABLE  =========================================
-create or replace transient table analytics.data_science.data_early_dpd2_features_compiled_data as (
+create or replace transient table analytics.data_science.data_early_dpd3_features_compiled_data as (
 Select distinct
     a.USER_ID,
     a.CUTOFF_DATE
@@ -921,41 +921,41 @@ Select distinct
 
 from identifier($base_tbl) a
 
-left join analytics.data_science.data_early_dpd2_features_payment_collection_reminder b
+left join analytics.data_science.data_early_dpd3_features_payment_collection_reminder b
     on  a.USER_ID = b.USER_ID and a.CUTOFF_DATE = b.CUTOFF_DATE
 
-left join analytics.data_science.data_early_dpd2_features_debit_credit_ratio c
+left join analytics.data_science.data_early_dpd3_features_debit_credit_ratio c
     on  a.USER_ID = c.USER_ID and a.CUTOFF_DATE = c.CUTOFF_DATE
 
-left join analytics.data_science.data_early_dpd2_features_loan_communications d
+left join analytics.data_science.data_early_dpd3_features_loan_communications d
     on  a.USER_ID = d.USER_ID and a.CUTOFF_DATE = d.CUTOFF_DATE
 
-left join analytics.data_science.data_early_dpd2_features_loan_explored_channel e
+left join analytics.data_science.data_early_dpd3_features_loan_explored_channel e
     on  a.USER_ID = e.USER_ID and a.CUTOFF_DATE = e.CUTOFF_DATE
 
-left join analytics.data_science.data_early_dpd2_features_other_features g
+left join analytics.data_science.data_early_dpd3_features_other_features g
     on  a.USER_ID = g.USER_ID and a.CUTOFF_DATE = g.CUTOFF_DATE
 
-left join analytics.data_science.data_early_dpd2_features_active_users h
+left join analytics.data_science.data_early_dpd3_features_active_users h
     on  a.USER_ID = h.USER_ID and a.CUTOFF_DATE = h.CUTOFF_DATE
 
 left join (Select kb_id, login_time::date login_dt from analytics.model.user_base_fact_latest) u
     on u.kb_id = a.USER_ID
 
-left join analytics.data_science.data_early_dpd2_features_customer_addition cx
+left join analytics.data_science.data_early_dpd3_features_customer_addition cx
     on a.USER_ID = cx.USER_ID and a.CUTOFF_DATE = cx.CUTOFF_DATE
 );
 
 -- Check the compiled data
 select count(*) as total_rows, count(distinct USER_ID) as distinct_USERS
-from analytics.data_science.data_early_dpd2_features_compiled_data;
+from analytics.data_science.data_early_dpd3_features_compiled_data;
 
-describe table analytics.data_science.data_early_dpd2_features_compiled_data;
+describe table analytics.data_science.data_early_dpd3_features_compiled_data;
 
 
 
 --------  FINAL APP FEATURES  ===========================
-create or replace transient table analytics.data_science.data_early_dpd2_final_app_features as (
+create or replace transient table analytics.data_science.data_early_dpd3_final_app_features as (
 with
 -- Step 1: Collection Reminder Derived Features
 collection_reminder_features as (
@@ -1007,7 +1007,7 @@ collection_reminder_features as (
                 then 99999999 else collection_reminders_sent_dts_last_4_week/9 end
         ) as least_collection_dts_reminder
 
-    from analytics.data_science.data_early_dpd2_features_compiled_data
+    from analytics.data_science.data_early_dpd3_features_compiled_data
 ),
 
 -- Step 2: Collection Reminder Indexes
@@ -1187,7 +1187,7 @@ other_app_features as (
         cr.LATEST_COLLECTION_REMINDER_DAYS_INDEX,
         cr.OLD_COLLECTION_REMINDER_DAYS_INDEX
 
-    from analytics.data_science.data_early_dpd2_features_compiled_data c
+    from analytics.data_science.data_early_dpd3_features_compiled_data c
     left join collection_indexes cr
         on  c.USER_ID = cr.USER_ID and c.CUTOFF_DATE = cr.CUTOFF_DATE
 ),
@@ -1254,23 +1254,23 @@ from trend_features
 
 
 -- -- Verify: Count features
-describe table analytics.data_science.data_early_dpd2_final_app_features;
+describe table analytics.data_science.data_early_dpd3_final_app_features;
 
 -- -- Check data
--- select * from analytics.data_science.data_early_dpd2_final_app_features limit 5;
+-- select * from analytics.data_science.data_early_dpd3_final_app_features limit 5;
 
 
 -- SELECT
 --     COUNT(*) AS total_rows,
 --     SUM(CASE WHEN USER_ID IS NULL THEN 1 ELSE 0 END) AS null_user_id,
 --     SUM(CASE WHEN CUTOFF_DATE IS NULL THEN 1 ELSE 0 END) AS null_CUTOFF_DATE
--- FROM analytics.data_science.data_early_dpd2_final_app_features;
+-- FROM analytics.data_science.data_early_dpd3_final_app_features;
 
 
-select count(*) , count (distinct user_id), count(distinct user_id, cutoff_date) from analytics.data_science.data_early_dpd2_final_app_features;
+select count(*) , count (distinct user_id), count(distinct user_id, cutoff_date) from analytics.data_science.data_early_dpd3_final_app_features;
 -- COUNT(*)	COUNT (DISTINCT USER_ID)	COUNT(DISTINCT USER_ID, CUTOFF_DATE)
 -- 5238679	2586889	5238679
 
 
 
-select * from analytics.data_science.data_early_dpd2_final_app_features limit 100;
+select * from analytics.data_science.data_early_dpd3_final_app_features limit 100;

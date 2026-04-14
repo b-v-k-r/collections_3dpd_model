@@ -1,6 +1,6 @@
  set base_tbl = 'analytics.data_science.field_disposition_base';
 
-CREATE OR REPLACE TABLE analytics.data_science.data_early_dpd2_sms_day_level_features AS (
+CREATE OR REPLACE TABLE analytics.data_science.data_early_dpd3_sms_day_level_features AS (
     WITH bre_loan_base_uid AS (
         SELECT DISTINCT USER_ID, CUTOFF_DATE
         FROM identifier($base_tbl)
@@ -260,20 +260,20 @@ CREATE OR REPLACE TABLE analytics.data_science.data_early_dpd2_sms_day_level_fea
 );
 
 -- Verify the results
-SELECT * FROM analytics.data_science.data_early_dpd2_sms_day_level_features LIMIT 10;
+SELECT * FROM analytics.data_science.data_early_dpd3_sms_day_level_features LIMIT 10;
 
 
 
 -----  SMS FINAL FEATURES FROM DAY LEVEL =======================================================    =   =   =   =   =           ==  =       =   =   =
 
-CREATE OR REPLACE TRANSIENT TABLE analytics.data_science.data_early_dpd2_sms_final_features AS (
+CREATE OR REPLACE TRANSIENT TABLE analytics.data_science.data_early_dpd3_sms_final_features AS (
     WITH device_counts AS (
         SELECT
             l.USER_ID, l.CUTOFF_DATE,
             s.DEVICE_ID,
             COUNT(*) AS device_count
         FROM identifier($base_tbl) l
-        LEFT JOIN analytics.data_science.data_early_dpd2_sms_day_level_features s
+        LEFT JOIN analytics.data_science.data_early_dpd3_sms_day_level_features s
             ON l.USER_ID = s.user_id
             AND l.CUTOFF_DATE = s.cutoff_date
             AND s.dt BETWEEN DATEADD(DAY, -30, l.CUTOFF_DATE) AND DATEADD(DAY, -1, l.CUTOFF_DATE)
@@ -1374,7 +1374,7 @@ CREATE OR REPLACE TRANSIENT TABLE analytics.data_science.data_early_dpd2_sms_fin
         FROM (
             SELECT d.USER_ID,  d.cutoff_date, s.* EXCLUDE (USER_ID, DEVICE_ID, CUTOFF_DATE)
             FROM DEVICE d
-            LEFT JOIN analytics.data_science.data_early_dpd2_sms_day_level_features s
+            LEFT JOIN analytics.data_science.data_early_dpd3_sms_day_level_features s
                 ON s.USER_ID = d.USER_ID
                 AND s.cutoff_date = d.cutoff_date
                 AND (s.DEVICE_ID = d.DEVICE_ID OR (s.DEVICE_ID IS NULL AND d.DEVICE_ID IS NULL))
@@ -1968,23 +1968,23 @@ CREATE OR REPLACE TRANSIENT TABLE analytics.data_science.data_early_dpd2_sms_fin
 
 
 -- -- Check data
--- SELECT * FROM analytics.data_science.data_early_dpd2_sms_final_features limit 10 ;
--- select count(*) from analytics.data_science.data_early_dpd2_sms_final_features;
+-- SELECT * FROM analytics.data_science.data_early_dpd3_sms_final_features limit 10 ;
+-- select count(*) from analytics.data_science.data_early_dpd3_sms_final_features;
 
-describe table analytics.data_science.data_early_dpd2_sms_final_features;
+describe table analytics.data_science.data_early_dpd3_sms_final_features;
 
 -- SELECT
 --     COUNT(*) AS total_rows,
 --     SUM(CASE WHEN USER_ID IS NULL THEN 1 ELSE 0 END) AS null_user_id,
 --     SUM(CASE WHEN cutoff_date IS NULL THEN 1 ELSE 0 END) AS null_CUTOFF_DATE
--- FROM analytics.data_science.data_early_dpd2_sms_final_features;
+-- FROM analytics.data_science.data_early_dpd3_sms_final_features;
 
 
 
 
-select count(*) , count (distinct user_id), count(distinct user_id, cutoff_date) from analytics.data_science.data_early_dpd2_sms_final_features;
+select count(*) , count (distinct user_id), count(distinct user_id, cutoff_date) from analytics.data_science.data_early_dpd3_sms_final_features;
 -- COUNT(*)	COUNT (DISTINCT USER_ID)	COUNT(DISTINCT USER_ID, CUTOFF_DATE)
 -- 5238679	2586889	5238679
 
 
--- describe table analytics.data_science.data_early_dpd2_sms_final_features;
+-- describe table analytics.data_science.data_early_dpd3_sms_final_features;

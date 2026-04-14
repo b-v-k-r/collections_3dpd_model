@@ -1,6 +1,6 @@
 set base_tbl = 'analytics.data_science.field_disposition_base';
 create
-or replace table analytics.data_science.all_activity_features_for_early_dpd2 as
+or replace table analytics.data_science.all_activity_features_for_early_dpd3 as
 with base_activity as (
 select
     user_id,
@@ -2491,6 +2491,6 @@ from derived;
 select
     count(*)
 from
-    analytics.data_science.all_activity_features_for_early_dpd2
+    analytics.data_science.all_activity_features_for_early_dpd3
 limit
     100;

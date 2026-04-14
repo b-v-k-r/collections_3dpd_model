@@ -15,9 +15,9 @@
 --   * CREATE OR REPLACE TABLE ... AS
 -- ============================================================
 
-set base_tbl = 'analytics.data_science.early_dpd2_base';
+set base_tbl = 'analytics.data_science.early_dpd3_base';
 
-create or replace table analytics.data_science.ai_calling_features_for_early_dpd2 as
+create or replace table analytics.data_science.ai_calling_features_for_early_dpd3 as
 
 with base as (
     select distinct
