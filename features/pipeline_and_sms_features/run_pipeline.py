@@ -30,7 +30,7 @@ from pathlib import Path
 
 # ── Base table used across all three pipeline SQL files ──────────────────────
 # Change this value here to point all pipelines at a different table.
-BASE_TBL = "analytics.data_science.early_dpd_base_2dpd"
+BASE_TBL = "analytics.data_science.early_dpd_base_3dpd"
 
 # ── The db_service/config modules live in this repo root ─────────────────
 # Add this repository root to sys.path so imports resolve locally.

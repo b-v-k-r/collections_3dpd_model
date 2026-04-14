@@ -23,7 +23,7 @@ tables = {
     "ai_calling": "analytics.data_science.ai_calling_features_for_early_dpd2",
     "legal_automation": "analytics.data_science.legal_automation_features_for_early_dpd2",
 }
-base_table = "analytics.data_science.early_dpd_base_2dpd"
+base_table = "analytics.data_science.early_dpd_base_3dpd"
 
 TARGET_TABLE = "analytics.data_science.early_dpd2_combined_features"
 

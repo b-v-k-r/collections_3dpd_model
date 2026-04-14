@@ -98,7 +98,7 @@
   "run_config": {
     "local_csv": null,
     "local_parquet": null,
-    "cache_parquet": "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/model_outputs/combined_features.parquet",
+    "cache_parquet": "/Users/vamsi.k/Documents/Collection Models/collections_3dpd_model/model_outputs/combined_features.parquet",
     "refresh_cache": false,
     "n_trials": 150,
     "timeout": null,

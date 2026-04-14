@@ -1,5 +1,5 @@
 -- Set the base table (override this variable before executing if needed)
-set base_tbl = 'analytics.data_science.early_dpd_base_2dpd';
+set base_tbl = 'analytics.data_science.early_dpd_base_3dpd';
 
 with userbase as (
     select distinct

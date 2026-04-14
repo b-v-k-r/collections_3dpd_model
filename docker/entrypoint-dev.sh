@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Define the private repository name
-REPO_NAME="collections_2dpd_model"
+REPO_NAME="collections_3dpd_model"
 NAME_SPACE="stage-dataplatform"
 BRANCH="main"
 

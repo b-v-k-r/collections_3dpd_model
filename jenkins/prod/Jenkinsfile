@@ -1,6 +1,6 @@
 String version = new Date().format('yyyyMMdd_HHmmss')
-String artifactName = "collections_2dpd_model"
-String dockerImageRepo = "694468762768.dkr.ecr.ap-south-1.amazonaws.com/prod-ds-collections-2dpd-service"
+String artifactName = "collections_3dpd_model"
+String dockerImageRepo = "694468762768.dkr.ecr.ap-south-1.amazonaws.com/prod-ds-collections-3dpd-service"
 String label = "collect-risk-model-${UUID.randomUUID().toString()}"
 String yamlConfig = """
 apiVersion: v1

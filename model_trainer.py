@@ -1,7 +1,7 @@
 """
 
-python /Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/model_trainer.py \
-  --cache-parquet /Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/model_outputs/combined_features.parquet \
+python /Users/vamsi.k/Documents/Collection Models/collections_3dpd_model/model_trainer.py \
+  --cache-parquet /Users/vamsi.k/Documents/Collection Models/collections_3dpd_model/model_outputs/combined_features.parquet \
   --hpo-objective ks_at_coverage \
   --hpo-coverage 0.50 \
   --n-trials 50 \

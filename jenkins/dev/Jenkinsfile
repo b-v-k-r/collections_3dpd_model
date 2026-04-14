@@ -1,5 +1,5 @@
 String version = "0.0.${currentBuild.number}"
-String artifactName = "collections_2dpd_model"
+String artifactName = "collections_3dpd_model"
 String dockerImageRepo = "741386957827.dkr.ecr.ap-south-1.amazonaws.com/dev-datascience-shared-services"
 String label = "docker-build-${UUID.randomUUID().toString()}"
 

@@ -4,7 +4,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.models import DAG, Variable
 from kubernetes.client import models as k8s_models
 
-DAG_ID = "collections_2dpd_model"
+DAG_ID = "collections_3dpd_model"
 config = Variable.get(DAG_ID, deserialize_json=True)
 
 IMAGE = config["image_uri"]
@@ -62,7 +62,7 @@ container_config_high = k8s_models.V1ResourceRequirements(
 
 def _runtime_prefix() -> str:
     if config["env"] == "dev":
-        return "./entrypoint-dev.sh && cd /app/collections_2dpd_model && "
+        return "./entrypoint-dev.sh && cd /app/collections_3dpd_model && "
     return "./entrypoint-prod.sh && cd /app && "
 
 
