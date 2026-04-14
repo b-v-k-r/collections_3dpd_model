@@ -1,14 +1,14 @@
 """
 predict.py
 ==========
-End-to-end 2-DPD risk prediction pipeline.
+End-to-end 3-DPD risk prediction pipeline.
 
-Automatically scores all users who were at 2 DPD yesterday (CURRENT_DATE - 1).
+Automatically scores all users who were at 3 DPD yesterday (CURRENT_DATE - 1).
 No input table is required — the prediction base is built directly from the
-live source tables filtered to yesterday's 2-DPD cohort.
+live source tables filtered to yesterday's 3-DPD cohort.
 
 Steps:
-  1. Creates a Snowflake prediction base table for yesterday's 2-DPD users.
+  1. Creates a Snowflake prediction base table for yesterday's 3-DPD users.
   2. Runs the SMS / in-app SQL feature pipeline against the prediction base.
   3. Runs the FTS SQL feature pipeline (activity, bureau, ledger, transactional,
      renewal, aa, ai_calling, legal) against the prediction base.
@@ -436,7 +436,7 @@ def _features_combinator(
 
 def create_prediction_base(pred_base_table: str, pred_daily_table: str) -> None:
     """
-    Append yesterday's 2-DPD cohort to the history base table, then build the
+    Append yesterday's 3-DPD cohort to the history base table, then build the
     daily-slice working table used by all downstream feature pipelines.
 
     pred_base_table  — permanent history table (CREATE IF NOT EXISTS + INSERT INTO)
@@ -446,7 +446,7 @@ def create_prediction_base(pred_base_table: str, pred_daily_table: str) -> None:
     """
     print(f"\n{'#' * 60}")
     print(f"  STEP 1 — Create prediction base table")
-    print(f"  Cohort : users at 2 DPD as of yesterday (CURRENT_DATE - 1)")
+    print(f"  Cohort : users at 3 DPD as of yesterday (CURRENT_DATE - 1)")
     print(f"  History: {pred_base_table}")
     print(f"  Daily  : {pred_daily_table}")
     print(f"{'#' * 60}")
@@ -703,7 +703,7 @@ def load_and_predict(
     X = df_combined.drop(columns=drop_cols)
 
     # Drop the target column if it leaked into the feature tables (it's -1 anyway)
-    for tgt_col in ("TARGET_RISK_BUCKET_2D", "FUTURE_MAX_DPD"):
+    for tgt_col in ("TARGET_RISK_BUCKET_3D", "FUTURE_MAX_DPD"):
         if tgt_col in X.columns:
             X = X.drop(columns=[tgt_col])
 
@@ -793,7 +793,7 @@ def load_and_predict(
 
 def parse_args():
     p = argparse.ArgumentParser(
-        description="2-DPD risk prediction pipeline",
+        description="3-DPD risk prediction pipeline",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )

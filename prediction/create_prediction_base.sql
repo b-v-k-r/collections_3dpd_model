@@ -84,5 +84,5 @@ collections_repayments AS (
 SELECT
     cr.*,
     NULL::INTEGER AS future_max_dpd,
-    -1            AS target_risk_bucket_2d
+    -1            AS target_risk_bucket_3d
 FROM collections_repayments cr

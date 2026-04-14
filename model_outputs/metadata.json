@@ -1,5 +1,5 @@
 {
-  "target": "TARGET_RISK_BUCKET_2D",
+  "target": "TARGET_RISK_BUCKET_3D",
   "split_strategy": "temporal (CUTOFF_DATE)",
   "n_features": 4118,
   "selected_features": [

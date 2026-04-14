@@ -15,7 +15,7 @@ model_trainer.py
 ================
 Optuna-tuned XGBoost binary classifier for early DPD risk detection.
 
-Target   : TARGET_RISK_BUCKET_2D  (0 = safe, 1 = risky, -1 = no future data → dropped)
+Target   : TARGET_RISK_BUCKET_3D  (0 = safe, 1 = risky, -1 = no future data → dropped)
 Data src : analytics.data_science.early_dpd3_combined_features_part{1..9}
            (built by data_creator.py — base + SMS + in-app + activity
             + ledger + bureau + transactional + renewal + aa + ai_calling
@@ -171,7 +171,7 @@ COMBINED_FEATURES_TABLES = [
     "analytics.data_science.early_dpd3_combined_features_part9",
 ]
 MERGE_KEYS = ["USER_ID", "CUTOFF_DATE", "LOAN_ID"]
-TARGET_COL = "TARGET_RISK_BUCKET_2D"  # uppercased — matches Snowflake response
+TARGET_COL = "TARGET_RISK_BUCKET_3D"  # uppercased — matches Snowflake response
 DATE_COL = "CUTOFF_DATE"  # temporal ordering key; dropped before training
 RANDOM_SEED = 42
 OUTPUT_DIR = Path(__file__).parent / "model_outputs"
