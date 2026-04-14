@@ -1,0 +1,9 @@
+nohup python -u "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/features/create_new_folder_fts/run_pipeline.py" --warehouse FEATURE_WH > "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/logs/create_new_fts.log" 2>&1 &
+
+nohup python -u "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/features/pipeline_and_sms_features/run_pipeline.py" --warehouse FREQUENT_LOAD_DS_WH > "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/logs/pipeline_and_sms.log" 2>&1 &
+
+nohup python -u "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/data_creator.py" > "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/logs/data_creator.log" 2>&1 &
+
+nohup python -u "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/model_trainer.py" --cache-parquet "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/model_outputs/combined_features.parquet" --output-dir "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/model_outputs" > "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/logs/model_trainer.log" 2>&1 &
+
+nohup python -u "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/prediction/predict.py" --input-table analytics.data_science.<YOUR_INPUT_TABLE> --parser <YOUR_PARSER_SUFFIX> --output-table analytics.data_science.<YOUR_OUTPUT_TABLE> --output-csv "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/prediction/predictions_<YOUR_PARSER_SUFFIX>.csv" > "/Users/vamsi.k/Documents/Collection Models/collections_2dpd_model/logs/predict_pipeline_<YOUR_PARSER_SUFFIX>.log" 2>&1 &

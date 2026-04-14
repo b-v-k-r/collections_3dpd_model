@@ -1,0 +1,33 @@
+String version = "0.0.${currentBuild.number}"
+String artifactName = "collections_2dpd_model"
+String dockerImageRepo = "741386957827.dkr.ecr.ap-south-1.amazonaws.com/dev-datascience-shared-services"
+String label = "docker-build-${UUID.randomUUID().toString()}"
+
+podTemplate(label: label,
+        containers: [
+                containerTemplate(
+                        image: '741386957827.dkr.ecr.ap-south-1.amazonaws.com/common-for-all-env:dind',
+                        name: 'dind',
+                        command: 'dockerd',
+                        privileged: true,
+                        ttyEnabled: true
+                )]
+                )
+        {
+            node(label) {
+                timeout(60) {
+                    container('dind') {
+                        stage ("Build & Push Images to ECR") {
+                            checkout scm
+                            withDockerRegistry(
+                            credentialsId: 'ecr:ap-south-1:dev-aws-s3-ecr',
+                            url: 'https://741386957827.dkr.ecr.ap-south-1.amazonaws.com/dev-datascience-shared-services') {
+                                sh "docker build --network=host -t ${artifactName}:${version} -f ./docker/Dockerfile ."
+                                sh "docker tag ${artifactName}:${version} ${dockerImageRepo}:${artifactName}-${version}"
+                                sh "docker push ${dockerImageRepo}:${artifactName}-${version}"
+                            }
+                        }
+                    }
+                }
+            }
+        }

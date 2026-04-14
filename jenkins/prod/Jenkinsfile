@@ -1,0 +1,41 @@
+String version = new Date().format('yyyyMMdd_HHmmss')
+String artifactName = "collections_2dpd_model"
+String dockerImageRepo = "694468762768.dkr.ecr.ap-south-1.amazonaws.com/prod-ds-collections-2dpd-service"
+String label = "collect-risk-model-${UUID.randomUUID().toString()}"
+String yamlConfig = """
+apiVersion: v1
+metadata:
+  annotations:
+    karpenter.sh/do-not-evict: true
+spec:
+    nodeSelector:
+        karpenter.sh/nodepool: compute-spot-amd-nodepool
+"""
+
+podTemplate(label: label,
+        yaml: yamlConfig,
+        containers: [
+                containerTemplate(
+                        image: '741386957827.dkr.ecr.ap-south-1.amazonaws.com/common-for-all-env:dind',
+                        name: 'dind',
+                        command: 'dockerd',
+                        privileged: true,
+                        ttyEnabled: true
+                )]
+                )
+        {
+            node(label) {
+                timeout(60) {
+                    container('dind') {
+                        stage ("Build & Push Images to ECR") {
+                            checkout scm
+                            withDockerRegistry(credentialsId: 'ecr:ap-south-1:prod-aws-ecr', url: "https://${dockerImageRepo}") {
+                                String tagName = "${dockerImageRepo}:${version}"
+                                sh "docker build --network=host -t ${tagName} -f ./docker/Dockerfile --target prod ."
+                                sh "docker push ${tagName}"
+                            }
+                        }
+                    }
+                }
+            }
+        }

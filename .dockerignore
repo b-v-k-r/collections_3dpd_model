@@ -1,0 +1,17 @@
+*.json
+__pycache__/
+.vscode/
+*.env
+*.pkl
+*.parquet
+*.DS_Store
+*.txt
+!nohup_commands.txt
+*.log
+*.out
+*.csv
+!model_outputs/
+!model_outputs/**
+model_outputs/*.parquet
+model_outputs/*.log
+!requirements.txt
